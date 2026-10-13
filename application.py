@@ -10,30 +10,121 @@ dir_call_movel = DIRECTORY_ORIGIN
 dir_call_fixa_nacional = DIRECTORY_ORIGIN
 dir_call_fixa_regional = DIRECTORY_ORIGIN
 
-VERSION = "1.0.1"
+VERSION = "1.1.0"
 HEADER = f"_________________ | Gerar Relatorios v{VERSION} - By Diego C. | _________________"
-ARCHIVES_SELECTED = f"Arquivos Anexados:\n\n  Pedidos Movel: {dir_pedidos_movel}\n  Pedidos Fixa: {dir_pedidos_fixa}\n  Chamadas Movel: {dir_call_movel}\n  Chamadas Fixa Nacional: {dir_call_fixa_nacional}\n  Chamadas Fixa Regional: {dir_call_fixa_regional}"
 OPTIONS_MENU = f"\nOpções:\n\n  [1] Anexar arquivos\n  [2] Analisar Telefones\n\n  [3] Ficha de vendas\n  [4] Gerencial\n  [5] Retorno\n  [6] Operacional\n\n  [0] Sair"
 
 
+def get_archives_selected():
+    return (
+        f"\nArquivos Anexados:\n\n  Pedidos Movel: {dir_pedidos_movel}\n"
+        f"  Pedidos Fixa: {dir_pedidos_fixa}\n"
+        f"  Chamadas Movel: {dir_call_movel}\n"
+        f"  Chamadas Fixa Nacional: {dir_call_fixa_nacional}\n"
+        f"  Chamadas Fixa Regional: {dir_call_fixa_regional}"
+    )
+    
+    
 def show_header():
     os.system("cls")
-    print(HEADER+"\n\n\n"+ARCHIVES_SELECTED+"\n"+OPTIONS_MENU)
+    print(HEADER+"\n\n\n"+get_archives_selected()+"\n"+OPTIONS_MENU)
+
+
+def valid_dir(diretory_way):
+    if not Path(diretory_way).is_file():
+        raise FileNotFoundError(f"\nArquivo não encontrado!")
+
+def dir_archives():
+    
+    global dir_pedidos_movel, dir_pedidos_fixa, dir_call_movel ,dir_call_fixa_nacional, dir_call_fixa_regional 
+    
+    
+    os.system("cls")
+    print(HEADER+"\n\n\n"+get_archives_selected())
+    
+    try:
+        dir_pedidos_movel = Path(input("\nDiretorio pedidos movel: "))
+        valid_dir(dir_pedidos_movel)
+        
+    except FileNotFoundError as e:
+        print(e)
+        dir_pedidos_movel = DIRECTORY_ORIGIN
+        input("\nPressione [enter]")
+        
+        
+    os.system("cls")
+    print(HEADER+"\n\n\n"+get_archives_selected())
+        
+    try:
+        dir_pedidos_fixa = Path(input("\nDiretorio pedidos fixa: "))
+        valid_dir(dir_pedidos_fixa)
+    
+    except FileNotFoundError as e:
+        print(e)
+        dir_pedidos_fixa = DIRECTORY_ORIGIN
+        input("\nPressione [enter]")
+        
+        
+    os.system("cls")
+    print(HEADER+"\n\n\n"+get_archives_selected())
+        
+    try:    
+        dir_call_movel = Path(input("\nDiretorio chamadas movel: "))
+        valid_dir(dir_call_movel)
+        
+    except FileNotFoundError as e:
+        print(e)
+        dir_call_movel = DIRECTORY_ORIGIN
+        input("\nPressione [enter]")
+        
+        
+    os.system("cls")
+    print(HEADER+"\n\n\n"+get_archives_selected())
+    try:
+        dir_call_fixa_nacional = Path(input("\nDiretorio chamadas fixa nacional: "))
+        valid_dir(dir_call_fixa_nacional)
+        
+    except FileNotFoundError as e:
+        print(e)
+        dir_call_fixa_nacional = DIRECTORY_ORIGIN  
+        input("\nPressione [enter]")
+        
+        
+    os.system("cls")
+    print(HEADER+"\n\n\n"+get_archives_selected())
+    
+    try:
+        dir_call_fixa_regional = Path(input("\nDiretorio chamadas fixa nacional: "))
+        valid_dir(dir_call_fixa_regional)
+    
+    except FileNotFoundError as e:
+        print(e)
+        dir_call_fixa_regional = DIRECTORY_ORIGIN      
+        input("\nPressione [enter]")
+    
+    os.system("cls")
+    print(HEADER+"\n\n\n"+get_archives_selected())
+            
 
 
 def show_options(user_option):
     
     match user_option:
         case 1:
-            ...
+            dir_archives()
+            
         case 2:
             ...
+            
         case 3:
             ...
+            
         case 4:
             ...
+            
         case 5:
             ...
+            
         
 user_option = 0
  
@@ -62,4 +153,4 @@ while True:
         
     show_options(user_option=user_option)
     
-    break
+    
