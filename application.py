@@ -1,4 +1,5 @@
 import pandas as pd
+from services import analise_telefones as an
 from pathlib import Path
 import os
 
@@ -33,6 +34,10 @@ def show_header():
 def valid_dir(diretory_way):
     if not Path(diretory_way).is_file():
         raise FileNotFoundError(f"\nArquivo não encontrado!")
+
+def valid_dir_folder(diretory_way):
+    if not Path(diretory_way).is_dir():
+        raise FileNotFoundError(f"\nPasta não encontrada!")
 
 def dir_archives():
     
@@ -114,8 +119,76 @@ def show_options(user_option):
             dir_archives()
             
         case 2:
-            ...
+            os.system("cls")
+            print("_______________ | Conversor e Concatenador - By Diego | _______________")
             
+            while True:
+                try:
+                    option_user = int(input("\n[1] Converter TXT to CSV\n[2] Concatenar diferentes arquivos CSV\n[3] Remover duplicadas\n\nDigite: "))
+                except ValueError:
+                    print("\nDigite apenas numeros!")
+                    continue
+
+                if option_user == 1:
+                    
+                    try:
+                        dir_txt_retorno = Path(input("\nDigite o caminho para o txt de retorno: "))
+                        valid_dir_folder(dir_txt_retorno)
+                        
+                        mounth = input("Digite o mes: ")
+                        product = input("Digite o produto: ")
+                        
+                    except FileNotFoundError as e:
+                        print(e)
+                        input("\nPressione [enter] para continuar: ")
+                        continue
+                    
+                    an.Analisar_Telefones.convert_txt_in_csv(dir_txt_retorno=dir_txt_retorno, mounth_relatory=mounth, product=product)
+                    print("\nConvertido!")
+                    input("Pressione [enter] para continuar")
+                    break
+                
+                elif option_user == 2:
+                    
+                    try:
+                        dir_csv_retorno = Path(input("\nDigite o caminho para o csv de retorno: "))
+                        valid_dir_folder(dir_csv_retorno)
+                        
+                        mounth = input("Digite o mes: ")
+                        product = input("Digite o produto: ")
+                                            
+                    except FileNotFoundError as e:
+                        print(e)
+                        input("\nPressione [enter] para continuar: ")
+                        continue
+                    
+                    an.Analisar_Telefones.concat_csv_return(dir_csv_retorno=dir_csv_retorno, mounth_relatory=mounth, product=product)
+                    print("\nConcatenado!")
+                    input("Pressione [enter] para continuar")
+                    break
+
+                elif option_user == 3:
+                    try:
+                        dir_csv_unido = Path(input("\nDigite o caminho para o csv unido "))
+
+                        
+                        mounth = input("Digite o mes: ")
+                        product = input("Digite o produto: ")
+                                                                
+                    except FileNotFoundError as e:
+                        print(e)
+                        input("\nPressione [enter] para continuar: ")
+                        continue
+                    
+                    an.Analisar_Telefones.remove_duplicates(dir_csv_unido=dir_csv_unido, mounth_relatory=mounth, product=product)
+                    print("\nRemovido!")
+                    input("Pressione [enter] para continuar")
+                    break
+                    
+                else:
+                    print("\nOpção Invalida!")
+                    continue
+        
         case 3:
             ...
             
