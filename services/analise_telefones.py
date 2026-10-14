@@ -78,6 +78,24 @@ class Analisar_Telefones:
     def verify_tel_cpf(mailing, mounth, product, dir_csv_unido):
         ...
         
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
     def contabil_ids(dir_csv_unido, carga_mailing, mounth, day_acumulado, product):
         
         folder_exit = Path(__file__).resolve().parent / f"IDS_Ocorrencias"
