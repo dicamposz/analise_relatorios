@@ -72,3 +72,67 @@ class Analisar_Telefones:
         removed_duplicades.to_csv(folder_exit / f"{product} sem duplicadas - {mounth_relatory}.csv", sep=";", index=False)   
              
         print(f"Total: {len(df)} | Final: {len(removed_duplicades)}")
+        
+        
+        
+    def verify_tel_cpf(mailing, mounth, product, dir_csv_unido):
+        ...
+        
+    def contabil_ids(dir_csv_unido, carga_mailing, mounth, day_acumulado, product):
+        
+        folder_exit = Path(__file__).resolve().parent / f"IDS_Ocorrencias"
+        folder_exit.mkdir(exist_ok = True)
+        
+        i = 0
+        j = 0
+        total_lines_csv = 0
+        num_ocurrences = 0
+        verify_index = 0
+        list_id_verified = []
+        lines_exit = []
+        errors = []
+        
+        df_carga_mailing = pd.read_excel(carga_mailing)
+        
+        while True:
+              
+            j = 0
+            cel_carga_mailing = int(df_carga_mailing.iloc[i, 1])
+            
+            for chunk in pd.read_csv(dir_csv_unido, sep=";", chunksize=500_000):
+                
+                total_lines_csv += len(chunk)
+            
+                while True:
+                
+                    cel_csv_unido = int(chunk.iloc[j, 0])
+                    if cel_carga_mailing == cel_csv_unido:
+                        num_ocurrences += 1
+                        if cel_carga_mailing not in list_id_verified:
+                            list_id_verified.append(cel_carga_mailing)
+                
+                    j += 1
+                    verify_index += 1
+                    
+                    if j == 500_000 or verify_index == total_lines_csv:
+                        j = 0
+                        break
+                    
+                print(f"Verificadas: {total_lines_csv}")
+                
+            print(f"\nTotal de linhas verificadas para o id {cel_carga_mailing}")
+            print(f"ID - {cel_carga_mailing} - foi encontrado - {num_ocurrences} - vezes em - {total_lines_csv} - linhas\n\n")
+            
+            lines_exit.append({"ID": cel_carga_mailing, "ocorrencias": num_ocurrences})
+            
+            i += 1
+            total_lines_csv = 0
+            num_ocurrences = 0
+            verify_index = 0
+                                  
+            if i == len(df_carga_mailing):
+                print(f"\n{len(df_carga_mailing)} IDs lidos ---")
+                break
+        
+        df_relatory = pd.DataFrame(lines_exit)
+        df_relatory.to_excel(folder_exit / f"Ids - {product}_{mounth} acumulado até {day_acumulado}.xlsx", index=False)

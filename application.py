@@ -11,7 +11,7 @@ dir_call_movel = DIRECTORY_ORIGIN
 dir_call_fixa_nacional = DIRECTORY_ORIGIN
 dir_call_fixa_regional = DIRECTORY_ORIGIN
 
-VERSION = "1.1.5"
+VERSION = "1.2.0"
 HEADER = f"_________________ | Gerar Relatorios v{VERSION} - By Diego C. | _________________"
 OPTIONS_MENU = f"\nOpções:\n\n  [1] Anexar arquivos\n  [2] Analisar Telefones\n\n  [3] Ficha de vendas\n  [4] Gerencial\n  [5] Retorno\n  [6] Operacional\n\n  [0] Sair"
 
@@ -119,12 +119,12 @@ def show_options(user_option):
             dir_archives()
             
         case 2:
-            os.system("cls")
-            print("_______________ | Analisar telefones - By Diego | _______________")
-            
             while True:
+                os.system("cls")
+                print("_______________ | Analisar telefones - By Diego | _______________")
+                
                 try:
-                    option_user = int(input("\n[1] Converter TXT to CSV\n[2] Concatenar diferentes arquivos CSV\n[3] Remover duplicadas\n[4] Comparar com mailing\n[5] Contabilizar cargas\n\nDigite: "))
+                    option_user = int(input("\n[1] Converter TXT to CSV\n[2] Concatenar diferentes arquivos CSV\n[3] Remover duplicadas\n[4] Comparar com mailing\n[5] Contabilizar cargas\n\n[0] Voltar\n\nDigite: "))
                 except ValueError:
                     print("\nDigite apenas numeros!")
                     continue
@@ -184,7 +184,53 @@ def show_options(user_option):
                     print("\nRemovido!")
                     input("Pressione [enter] para continuar")
                     break
+                
                     
+                elif option_user == 4:
+                    print("\nAnalisar mailing...")
+                    
+                    try:
+                        dir_mailing_analizer = Path(input("\nDigite o local do arquivo do mailing: "))
+                        valid_dir(diretory_way=dir_mailing_analizer)
+                        
+                        dir_csv_analizer = Path(input("\nDigite o local do arquivo do csv unido: "))
+                        valid_dir(diretory_way=dir_csv_analizer)
+                        
+                        mounth = input("Digite o mês: ")
+                        product = input("Digite o produto: ")
+                        
+                    except FileNotFoundError as e:
+                        print(e)
+                        input("\nPressione [enter] para continuar")
+                    
+                    
+                    an.Analisar_Telefones.verify_tel_cpf(mounth=mounth, product=product, mailing=dir_mailing_analizer, dir_csv_unido=dir_csv_analizer)
+                    
+                    
+                elif option_user == 5:
+                    print("\nContabilizar cargas...")
+                    
+                    while True:
+                        try:
+                            dir_csv_unido = Path(input("\nDigite o caminho para o csv unido: "))
+                            dir_carga_mailing = Path(input("\nDigite o caminho para a carga a verificar: "))
+                        
+                            mounth = input("Digite o mes: ")
+                            day_cumulate = input("Digite X dia que esta acumulado: ")
+                            product = input("Digite o produto: ")
+                            
+                            break
+                        except FileNotFoundError as e:
+                            print(e)
+                            input("\nPressione[enter] para continuar")
+                            continue                     
+                    
+                    an.Analisar_Telefones.contabil_ids(dir_csv_unido=dir_csv_unido, carga_mailing=dir_carga_mailing, day_acumulado=day_cumulate, mounth=mounth, product=product)
+                    
+                    
+                elif option_user == 0:
+                    break    
+                
                 else:
                     print("\nOpção Invalida!")
                     continue
