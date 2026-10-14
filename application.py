@@ -11,7 +11,7 @@ dir_call_movel = DIRECTORY_ORIGIN
 dir_call_fixa_nacional = DIRECTORY_ORIGIN
 dir_call_fixa_regional = DIRECTORY_ORIGIN
 
-VERSION = "1.1.0"
+VERSION = "1.1.5"
 HEADER = f"_________________ | Gerar Relatorios v{VERSION} - By Diego C. | _________________"
 OPTIONS_MENU = f"\nOpções:\n\n  [1] Anexar arquivos\n  [2] Analisar Telefones\n\n  [3] Ficha de vendas\n  [4] Gerencial\n  [5] Retorno\n  [6] Operacional\n\n  [0] Sair"
 
@@ -120,11 +120,11 @@ def show_options(user_option):
             
         case 2:
             os.system("cls")
-            print("_______________ | Conversor e Concatenador - By Diego | _______________")
+            print("_______________ | Analisar telefones - By Diego | _______________")
             
             while True:
                 try:
-                    option_user = int(input("\n[1] Converter TXT to CSV\n[2] Concatenar diferentes arquivos CSV\n[3] Remover duplicadas\n\nDigite: "))
+                    option_user = int(input("\n[1] Converter TXT to CSV\n[2] Concatenar diferentes arquivos CSV\n[3] Remover duplicadas\n[4] Comparar com mailing\n[5] Contabilizar cargas\n\nDigite: "))
                 except ValueError:
                     print("\nDigite apenas numeros!")
                     continue
@@ -169,7 +169,7 @@ def show_options(user_option):
 
                 elif option_user == 3:
                     try:
-                        dir_csv_unido = Path(input("\nDigite o caminho para o csv unido "))
+                        dir_csv_unido = Path(input("\nDigite o caminho para o csv unido: "))
 
                         
                         mounth = input("Digite o mes: ")

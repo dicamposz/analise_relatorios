@@ -45,7 +45,7 @@ class Analisar_Telefones:
         
     def concat_csv_return(dir_csv_retorno, mounth_relatory, product):
         
-        folder_exit = Path(__file__).resolve().parent / "csv_retorno_gerado"
+        folder_exit = Path(__file__).resolve().parent / f"csv_retorno_unido_{product}_{mounth_relatory}"
         folder_exit.mkdir(exist_ok = True)
            
         csv_concat = sorted(dir_csv_retorno.glob("*.csv")) 
@@ -56,7 +56,7 @@ class Analisar_Telefones:
         print(f"\n{len(csv_concat)} arquivos encontrados")
         
         csv_unido = pd.concat((pd.read_csv(a) for a in csv_concat), ignore_index=True)
-        csv_unido.to_csv(folder_exit.parent / f"csv_unido_{product}_{mounth_relatory}.csv", index=False)
+        csv_unido.to_csv(folder_exit / f"csv_unido_{product}_{mounth_relatory}.csv", index=False)
             
         print(f"Total de linhas concatenadas: {len(csv_unido)}")
         
@@ -64,8 +64,11 @@ class Analisar_Telefones:
         
     def remove_duplicates(dir_csv_unido, mounth_relatory, product):
         
+        folder_exit = Path(__file__).resolve().parent / f"csv__unido_sem_duplicadas_{product}_{mounth_relatory}"
+        folder_exit.mkdir(exist_ok = True)
+        
         df = pd.read_csv(dir_csv_unido, sep=";")
         removed_duplicades = df.drop_duplicates(subset=[df.columns[0], df.columns[1]])
-        removed_duplicades.to_csv(f"{product} sem duplicadas - {mounth_relatory}.csv", sep=";", index=False)        
-        logging.basicConfig(filename=f"log_{product}_sd_{mounth_relatory}",level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s", encoding="utf-8")
-        logging.info(f"Total: {len(df)} | Final: {len(removed_duplicades)}")    
+        removed_duplicades.to_csv(folder_exit / f"{product} sem duplicadas - {mounth_relatory}.csv", sep=";", index=False)   
+             
+        print(f"Total: {len(df)} | Final: {len(removed_duplicades)}")
