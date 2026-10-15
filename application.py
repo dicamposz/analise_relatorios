@@ -11,7 +11,7 @@ dir_call_movel = DIRECTORY_ORIGIN
 dir_call_fixa_nacional = DIRECTORY_ORIGIN
 dir_call_fixa_regional = DIRECTORY_ORIGIN
 
-VERSION = "1.2.5"
+VERSION = "1.3.0"
 HEADER = f"_________________ | Gerar Relatorios v{VERSION} - By Diego C. | _________________"
 OPTIONS_MENU = f"\nOpções:\n\n  [1] Anexar arquivos\n  [2] Analisar Telefones\n\n  [3] Ficha de vendas\n  [4] Gerencial\n  [5] Retorno\n  [6] Operacional\n\n  [0] Sair"
 
@@ -204,7 +204,7 @@ def show_options(user_option):
                         input("\nPressione [enter] para continuar")
                     
                     
-                    an.Analisar_Telefones.verify_tel_cpf(mounth=mounth, product=product, mailing=dir_mailing_analizer, dir_csv_unido=dir_csv_analizer)
+                    an.Analisar_Telefones.verify_tel_cpf(mounth=mounth, product=product, dir_mailing=dir_mailing_analizer, dir_csv_unido=dir_csv_analizer)
                     
                     
                 elif option_user == 5:

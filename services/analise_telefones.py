@@ -74,26 +74,35 @@ class Analisar_Telefones:
         print(f"Total: {len(df)} | Final: {len(removed_duplicades)}")
         
         
+          
+    def limpa_telefone(colum_tel):
+        colum_tel = colum_tel.fillna("").str.replace(r"\D", "", regex=True)
+        return colum_tel.replace("", pd.NA)
+          
+          
+          
+    def verify_tel_cpf(dir_mailing, mounth, product, dir_csv_unido):
         
-    def verify_tel_cpf(mailing, mounth, product, dir_csv_unido):
-        ...
+        folder_exit = Path(__file__).resolve().parent / f"Telefones_comparados {product} - {mounth}"
+        folder_exit.mkdir(exist_ok = True)
         
+        mailing = pd.read_excel(dir_mailing, dtype=str)
+        retorno =pd.read_csv(dir_csv_unido, sep=";", dtype=str, encoding="utf-8-sig")
         
+        mailing.columns = mailing.columns.str.strip().str.upper()
+        retorno.columns = retorno.columns.str.strip().str.upper()
         
+        mailing["NU_FONE_TERMINAL_LIMPO"] = Analisar_Telefones.limpa_telefone(mailing["NU_FONE_TERMINAL"])
+        tels_retorno = set(Analisar_Telefones.limpa_telefone(retorno["NR_TLFN"]))
         
+        not_appair = mailing[(~mailing["NU_FONE_TERMINAL_LIMPO"].isin(tels_retorno))]
         
+        result = not_appair[["NU_FONE_TERMINAL", "NU_DOCUMENTO", "ST_NOME", "ID_PLAY"]]
+        result.to_excel(f"Telefones_não_usados - {product} -{mounth}.xlsx")
         
+        print(folder_exit / f"\nnão apareceram; {len(result)}")
         
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
+        print("\n Comparado.")
         
         
     def contabil_ids(dir_csv_unido, carga_mailing, mounth, day_acumulado, product):
